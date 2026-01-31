@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(npx create-expo-app@latest kitchenflow-app --template blank-typescript)",
+      "Bash(npx expo install:*)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npx expo start)",
+      "Bash(curl:*)",
+      "Bash(ren \"家用kitchen\" \"kitchenflow\")",
+      "Bash(powershell -Command \"Rename-Item -Path ''C:\\\\Users\\\\gibro\\\\Documents\\\\家用kitchen'' -NewName ''kitchenflow''\")",
+      "Bash(if [ -d \"kitchenflow-app\" ])",
+      "Bash(then echo \"kitchenflow-app exists\")",
+      "Bash(else echo \"kitchenflow-app does not exist\")",
+      "Bash(fi)",
+      "Bash(timeout 15 tail:*)",
+      "Bash(tee:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(npx expo start:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git reset:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(timeout:*)",
+      "Bash(ping:*)"
+    ]
+  }
+}

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KitchenFlow 新布局预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+        }
+
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #1a1a2e;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .phone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #1a1a2e;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #2d3561 0%, #1a1a2e 100%);
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .camera-view {
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800"><rect fill="%23333" width="400" height="800"/><text x="200" y="400" text-anchor="middle" fill="%23666" font-size="24" font-family="Arial">📷 相机预览</text></svg>');
+            background-size: cover;
+            position: relative;
+        }
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 60px 20px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .settings-btn {
+            font-size: 28px;
+            cursor: pointer;
+            padding: 8px;
+            transition: transform 0.2s;
+        }
+
+        .settings-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .bottom-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0 0 24px;
+        }
+
+        .quick-access-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px 24px;
+            margin: 0 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quick-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            flex: 1;
+        }
+
+        .quick-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .quick-icon {
+            font-size: 28px;
+        }
+
+        .quick-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .shutter-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .shutter-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .shutter-button:hover {
+            transform: scale(1.05);
+        }
+
+        .shutter-button:active {
+            transform: scale(0.95);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            padding: 0 16px;
+            margin-top: 16px;
+        }
+
+        .action-button {
+            flex: 1;
+            max-width: 160px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .action-button-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-icon {
+            font-size: 32px;
+        }
+
+        .action-text {
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .label {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .comparison {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4757;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 20;
+        }
+
+        .badge.new {
+            background: #2ed573;
+        }
+
+        h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .features {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .features h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .feature-list {
+            list-style: none;
+            color: white;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 16px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '✅ ';
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="comparison">
+            <h2>🎨 KitchenFlow 新布局预览</h2>
+            
+            <!-- 优化前 -->
+            <div>
+                <div class="phone">
+                    <div class="badge">优化前</div>
+                    <div class="screen">
+                        <div class="camera-view">
+                            <!-- Header -->
+                            <div class="header">
+                                <div class="logo">KitchenFlow</div>
+                                <div style="width: 28px;"></div>
+                            </div>
+
+                            <!-- Bottom Controls -->
+                            <div class="bottom-controls">
+                                <!-- QuickAccessBar - 4个按钮 -->
+                                <div class="quick-access-bar">
+                                    <div class="quick-item">
+                                        <div class="quick-icon">🍜</div>
+                                        <div class="quick-label">Cravings</div>
+                                    </div>
+                                    <div class="quick-item">
+                                        <div class="quick-icon">🛒</div>
+                                        <div class="quick-label">Shopping</div>
+                                    </div>
+                                    <div class="quick-item">
+                                        <div class="quick-icon">📸</div>
+                                        <div class="quick-label">Fridge</div>
+                                    </div>
+                                    <div class="quick-item">
+                                        <div class="quick-icon">⚙️</div>
+                                        <div class="quick-label">Settings</div>
+                                    </div>
+                                </div>
+
+                                <!-- Shutter Button -->
+                                <div class="shutter-container">
+                                    <div class="shutter-button"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="label">❌ 4个按钮拥挤</div>
+            </div>
+
+            <!-- 优化后 -->
+            <div>
+                <div class="phone">
+                    <div class="badge new">优化后 ✨</div>
+                    <div class="screen">
+                        <div class="camera-view">
+                            <!-- Header with Settings -->
+                            <div class="header">
+                                <div class="logo">KitchenFlow</div>
+                                <div class="settings-btn">⚙️</div>
+                            </div>
+
+                            <!-- Bottom Controls -->
+                            <div class="bottom-controls">
+                                <!-- QuickAccessBar - 3个按钮 -->
+                                <div class="quick-access-bar">
+                                    <div class="quick-item">
+                                        <div class="quick-icon">🍜</div>
+                                        <div class="quick-label">Cravings</div>
+                                    </div>
+                                    <div class="quick-item">
+                                        <div class="quick-icon">🛒</div>
+                                        <div class="quick-label">Shopping</div>
+                                    </div>
+                                    <div class="quick-item">
+                                        <div class="quick-icon">📸</div>
+                                        <div class="quick-label">Fridge</div>
+                                    </div>
+                                </div>
+
+                                <!-- Shutter Button -->
+                                <div class="shutter-container">
+                                    <div class="shutter-button"></div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="action-buttons">
+                                    <div class="action-button">
+                                        <div class="action-button-content">
+                                            <div class="action-icon">🧾</div>
+                                            <div class="action-text">扫描小票</div>
+                                        </div>
+                                    </div>
+                                    <div class="action-button">
+                                        <div class="action-button-content">
+                                            <div class="action-icon">📤</div>
+                                            <div class="action-text">相册上传</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="label">✅ 设置在右上角 + 新功能</div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <h3>✨ 主要改进</h3>
+            <ul class="feature-list">
+                <li>设置按钮移到右上角 (更符合习惯)</li>
+                <li>QuickAccessBar 从4个减少到3个按钮</li>
+                <li>底部新增功能按钮区域</li>
+                <li>🧾 扫描小票 - 跳转到小票扫描页面</li>
+                <li>📤 相册上传 - 直接从相册选择图片 (支持多选)</li>
+                <li>更大的点击区域,更易操作</li>
+                <li>更清晰的功能分区</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">⏱️ 实施时间</h3>
+            <ul class="feature-list">
+                <li>更新 HomeScreen - 10分钟</li>
+                <li>更新 QuickAccessBar - 5分钟</li>
+                <li>更新 FridgeScanScreen - 5分钟</li>
+                <li>测试基础功能 - 10分钟</li>
+                <li><strong>总计: 30分钟</strong></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

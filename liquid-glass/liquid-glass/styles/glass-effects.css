@@ -1,0 +1,103 @@
+/* ========== Liquid Glass 核心效果 ========== */
+
+@layer utilities {
+
+    /* 基础玻璃效果 */
+    .glass-effect {
+        @apply relative;
+        backdrop-filter: blur(20px) saturate(170%);
+        -webkit-backdrop-filter: blur(20px) saturate(170%);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 深色模式玻璃效果 */
+    .dark .glass-effect {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 玻璃内部光影 */
+    .glass-effect::before {
+        content: '';
+        @apply absolute inset-0 rounded-[inherit] pointer-events-none z-[1];
+        background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 0, 0, 0.05) 100%);
+    }
+
+    .dark .glass-effect::before {
+        background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 0, 0, 0.1) 100%);
+    }
+
+    /* 玻璃边缘高光 */
+    .glass-effect::after {
+        content: '';
+        @apply absolute inset-0 rounded-[inherit] pointer-events-none z-[1];
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.3),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    /* 不同强度 */
+    .glass-subtle {
+        backdrop-filter: blur(12px) saturate(150%);
+        -webkit-backdrop-filter: blur(12px) saturate(150%);
+    }
+
+    .glass-strong {
+        backdrop-filter: blur(30px) saturate(200%);
+        -webkit-backdrop-filter: blur(30px) saturate(200%);
+    }
+
+    /* 内容层级 - 确保内容显示在伪元素之上 */
+    .glass-content {
+        @apply relative z-10;
+    }
+
+    /* Hover 效果 */
+    .glass-hover {
+        @apply transition-all duration-300 ease-in-out;
+    }
+
+    .glass-hover:hover {
+        @apply -translate-y-1 scale-[1.02];
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .dark .glass-hover:hover {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Active 效果 */
+    .glass-active:active {
+        @apply scale-[0.98];
+        transition: all 0.1s ease-in-out;
+    }
+
+    /* SVG Filter 效果 */
+    .glass-distortion {
+        filter: url(#liquid-glass-distortion);
+    }
+
+    .glass-button-effect {
+        filter: url(#liquid-glass-button);
+    }
+
+    /* 浏览器兼容性降级 */
+    @supports not (backdrop-filter: blur(1px)) {
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.8);
+        }
+    }
+}

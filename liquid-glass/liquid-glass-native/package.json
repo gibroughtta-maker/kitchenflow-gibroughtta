@@ -1,0 +1,27 @@
+{
+  "name": "@kitchenflow/liquid-glass-native",
+  "version": "1.0.0",
+  "description": "React Native 版本的玻璃态 UI 组件库",
+  "main": "index.ts",
+  "types": "index.ts",
+  "keywords": [
+    "react-native",
+    "ui",
+    "glass",
+    "glassmorphism",
+    "components",
+    "kitchenflow"
+  ],
+  "author": "KitchenFlow Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.70.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-native": "^0.70.0",
+    "typescript": "^5.0.0"
+  }
+}

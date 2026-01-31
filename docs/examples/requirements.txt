@@ -1,0 +1,12 @@
+# Python 依赖（仅用于示例脚本）
+# KitchenFlow 主应用使用 React Native，不需要这些依赖
+
+# Google Generative AI SDK
+google-generativeai>=0.3.0
+
+# 网页抓取
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# HTML 解析器
+lxml>=4.9.0

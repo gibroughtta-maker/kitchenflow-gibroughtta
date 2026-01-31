@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Screen UI Preview - KitchenFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .preview-container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-frame {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 70px 24px 20px;
+            background: linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(26, 26, 46, 0.8) 100%);
+        }
+
+        .back-button, .scan-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover, .scan-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* Filter Section */
+        .filter-container {
+            padding: 12px 0;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-content {
+            display: flex;
+            gap: 12px;
+            padding: 0 24px;
+            align-items: center;
+        }
+
+        .filter-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            min-height: 44px;
+        }
+
+        .filter-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .filter-button.active {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .count-badge {
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .add-location-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            flex-shrink: 0;
+        }
+
+        .add-location-button:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Content */
+        .content {
+            padding: 0 24px 24px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .items-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Item Card */
+        .item-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 16px 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .item-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-header {
+            margin-bottom: 0;
+        }
+
+        .item-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            flex: 1;
+        }
+
+        .freshness-badge {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .item-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            flex-wrap: wrap;
+        }
+
+        .item-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .item-meta-separator {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .item-details {
+            display: none;
+        }
+
+        .item-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-detail-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+
+        .item-detail-value {
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 0 24px 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .summary-value {
+            color: #667eea;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-container {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-input-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .icon-button {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .icon-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .icon-button.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .modal-button.cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .modal-button.cancel:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-button.add {
+            background: #667eea;
+            color: white;
+        }
+
+        .modal-button.add:hover {
+            background: #5568d3;
+        }
+
+        /* Info Banner */
+        .info-banner {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .info-banner h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .info-banner p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="phone-frame">
+            <!-- Info Banner -->
+            <div class="info-banner">
+                <h3>📦 Inventory UI Preview</h3>
+                <p>改进后的布局 - 更舒展、更清晰</p>
+            </div>
+
+            <!-- Header -->
+            <div class="header">
+                <div class="back-button">←</div>
+                <div class="title">Inventory</div>
+                <div class="scan-button">📷</div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-container">
+                <div class="filter-content">
+                    <div class="filter-button active">
+                        <span>📱</span>
+                        <span>All</span>
+                    </div>
+                    <div class="filter-button">
+                        <span>❄️</span>
+                        <span>Fridge</span>
+                        <span class="count-badge">8</span>
+                    </div>
+                    <div class="filter-button">
+                        <span>🧊</span>
+                        <span>Freezer</span>
+                        <span class="count-badge">3</span>
+                    </div>
+                    <div class="filter-button">
+                        <span>🏺</span>
+                        <span>Pantry</span>
+                        <span class="count-badge">4</span>
+                    </div>
+                    <div class="filter-button">
+                        <span>📦</span>
+                        <span>Other</span>
+                        <span class="count-badge">0</span>
+                    </div>
+                    <div class="add-location-button" onclick="showModal()">+</div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="items-container">
+                    <!-- Item 1 -->
+                    <div class="item-card">
+                        <div class="item-header">
+                            <div class="item-title-row">
+                                <div class="item-name">🥛 Milk</div>
+                                <div class="freshness-badge fresh">🟢</div>
+                            </div>
+                            <div class="item-meta">
+                                <div class="item-meta-item">
+                                    <span>❄️</span>
+                                    <span>Fridge</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>1 bottle</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>95%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="item-card">
+                        <div class="item-header">
+                            <div class="item-title-row">
+                                <div class="item-name">🍎 Apple</div>
+                                <div class="freshness-badge use-soon">🟡</div>
+                            </div>
+                            <div class="item-meta">
+                                <div class="item-meta-item">
+                                    <span>❄️</span>
+                                    <span>Fridge</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>3 pieces</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>Slightly bruised</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>88%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="item-card">
+                        <div class="item-header">
+                            <div class="item-title-row">
+                                <div class="item-name">🥕 Carrot</div>
+                                <div class="freshness-badge priority">🔴</div>
+                            </div>
+                            <div class="item-meta">
+                                <div class="item-meta-item">
+                                    <span>❄️</span>
+                                    <span>Fridge</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>5 pieces</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>92%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="item-card">
+                        <div class="item-header">
+                            <div class="item-title-row">
+                                <div class="item-name">🍦 Ice Cream</div>
+                                <div class="freshness-badge fresh">🟢</div>
+                            </div>
+                            <div class="item-meta">
+                                <div class="item-meta-item">
+                                    <span>🧊</span>
+                                    <span>Freezer</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>1 tub</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>97%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="item-card">
+                        <div class="item-header">
+                            <div class="item-title-row">
+                                <div class="item-name">🍝 Pasta</div>
+                                <div class="freshness-badge fresh">🟢</div>
+                            </div>
+                            <div class="item-meta">
+                                <div class="item-meta-item">
+                                    <span>🏺</span>
+                                    <span>Pantry</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>2 boxes</span>
+                                </div>
+                                <span class="item-meta-separator">•</span>
+                                <div class="item-meta-item">
+                                    <span>91%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <div class="summary-row">
+                    <span class="summary-label">Total Items:</span>
+                    <span class="summary-value">15</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">All Locations:</span>
+                    <span class="summary-value">15</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal" onclick="hideModal(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <div class="modal-title">Add Custom Location</div>
+            
+            <div class="modal-input-group">
+                <label class="modal-label">Location Name:</label>
+                <input type="text" class="modal-input" placeholder="e.g., Wine Cellar" id="locationName">
+            </div>
+
+            <div class="modal-input-group">
+                <label class="modal-label">Choose Icon (optional):</label>
+                <div class="icon-grid">
+                    <div class="icon-button" onclick="selectIcon(this)">🍷</div>
+                    <div class="icon-button" onclick="selectIcon(this)">🏠</div>
+                    <div class="icon-button" onclick="selectIcon(this)">📍</div>
+                    <div class="icon-button" onclick="selectIcon(this)">⭐</div>
+                    <div class="icon-button" onclick="selectIcon(this)">🎯</div>
+                    <div class="icon-button" onclick="selectIcon(this)">🌟</div>
+                    <div class="icon-button" onclick="selectIcon(this)">💎</div>
+                    <div class="icon-button" onclick="selectIcon(this)">🔥</div>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="modal-button cancel" onclick="hideModal()">Cancel</button>
+                <button class="modal-button add" onclick="addLocation()">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedIcon = '📍';
+
+        function showModal() {
+            document.getElementById('modal').classList.add('show');
+        }
+
+        function hideModal(event) {
+            if (!event || event.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('locationName').value = '';
+                selectedIcon = '📍';
+                document.querySelectorAll('.icon-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+            }
+        }
+
+        function selectIcon(element) {
+            document.querySelectorAll('.icon-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedIcon = element.textContent;
+        }
+
+        function addLocation() {
+            const name = document.getElementById('locationName').value.trim();
+            if (!name) {
+                alert('Please enter a location name');
+                return;
+            }
+
+            // Create new filter button
+            const filterContent = document.querySelector('.filter-content');
+            const addButton = document.querySelector('.add-location-button');
+            
+            const newButton = document.createElement('div');
+            newButton.className = 'filter-button';
+            newButton.innerHTML = `
+                <span>${selectedIcon}</span>
+                <span>${name}</span>
+                <span class="count-badge">0</span>
+            `;
+            
+            filterContent.insertBefore(newButton, addButton);
+            
+            hideModal();
+            
+            // Show success message
+            alert(`✅ "${name}" location added successfully!`);
+        }
+    </script>
+</body>
+</html>
