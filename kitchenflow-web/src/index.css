@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========== 移动端安全区 ========== */
+:root {
+  --sat: env(safe-area-inset-top);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
+  --sar: env(safe-area-inset-right);
+}
+
+/* ========== 设计稿 - 沉浸式背景（冰箱图与设计稿一致）========== */
+.immersive-bg {
+  background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDWeRzu1wEYY89DDX6VU9JDqraoTCRy9WL73NuY73bY9dekK4zpRglVN5mLuLQxnxyPaV3v7KlWGR30WB22rHcQ3mgYJLV3PK8ANyb4uqU2NbG3320MoejH9jN-DocDiQUS1bTCYehNEVSE4yg78f0kyao108WzXE_9eiaX4HUww4EnFf8wk1wR9_KgP0TDRrqyAlVmS9smVFctz6U8vcDXlys6zOPLfTtxIebhsCCI75gipPrb4cqoCVVucbWCEqiYFk7KSVII1qH-");
+  background-size: cover;
+  background-position: center;
+}
+.immersive-overlay {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+}
+
+/* ========== 液态玻璃卡片 ========== */
+.liquid-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+.liquid-bubble-icon {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+  box-shadow: inset -2px -2px 6px rgba(0, 0, 0, 0.1), 2px 4px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* 状态标签 */
+.liquid-tag-green {
+  background: rgba(34, 197, 94, 0.25);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #dcfce7;
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+}
+.liquid-tag-yellow {
+  background: rgba(234, 179, 8, 0.25);
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  color: #fef9c3;
+  text-shadow: 0 0 10px rgba(234, 179, 8, 0.6);
+  box-shadow: 0 0 15px rgba(234, 179, 8, 0.2);
+}
+.liquid-tag-red {
+  background: rgba(239, 68, 68, 0.25);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fee2e2;
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+}
+
+/* 底部操作栏 */
+.liquid-bar {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 -10px 40px -10px rgba(0, 0, 0, 0.5);
+}
+.glass-frame {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+.text-glass-primary {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.text-glass-secondary {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 药丸按钮 */
+.pill-button {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+.pill-button:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* 主按钮 - 设计稿扫描结果页 */
+.btn-primary-glass {
+  @apply w-full h-14 rounded-full text-white font-bold text-base flex items-center justify-center gap-2 border border-white/20 active:scale-[0.98] transition-all;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+.btn-secondary-glass {
+  @apply w-full h-14 rounded-full liquid-card hover:bg-white/20 text-white font-bold text-base active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-white/30;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Material Symbols Outlined - 与设计稿一致 */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  letter-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* 设计稿：移动端整页高度（与 fridge_scan_results 设计一致） */
+html, body {
+  height: 100%;
+  min-height: max(884px, 100dvh);
+  -webkit-tap-highlight-color: transparent;
+}
+#root {
+  height: 100%;
+  min-height: max(884px, 100dvh);
+}

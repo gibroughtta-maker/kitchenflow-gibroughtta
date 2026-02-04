@@ -1,0 +1,66 @@
+# KitchenFlow Optimization Tasks
+
+- [ ] **Infrastructure & Hygiene**
+    - [x] Cleanup `tmpclaude-*` and `FIX_*.md` files <!-- id: 0 -->
+    - [x] Update AI Model to `gemini-3-flash-preview` <!-- id: 1 -->
+- [ ] **Architecture Refactoring (First Principles: Decoupling Decision from Structure)**
+    - [x] Extract JSON Schemas from `prompts.ts` to `src/ai/schemas.ts` <!-- id: 2 -->
+    - [x] Extract Types to `src/types/ai.ts` <!-- id: 3 -->
+    - [x] Simplify `prompts.ts` to focus solely on prompt engineering <!-- id: 4 -->
+- [ ] **Verification**
+    - [x] Verify build and compilation <!-- id: 5 -->
+
+- [ ] **Map Optimization (The "Pro" Experience)**
+    - [x] **Phase 1: Infrastructure & API**
+        - [x] Create `src/services/googleMapsService.ts` and types <!-- id: 6 -->
+        - [x] Configure `EXPO_PUBLIC_GOOGLE_PLACES_KEY` in `.env` <!-- id: 7 -->
+    - [x] **Phase 2: Logic Replacement**
+        - [x] Refactor `findNearestStore` to use Google Places API <!-- id: 8 -->
+        - [x] Implement Smart Filtering (Superstore vs Express) <!-- id: 9 -->
+        - [x] Implement Operating Status Check (Open/Closed) <!-- id: 10 -->
+    - [x] **Phase 3: UX Upgrade ("Pro" UI/UX)**
+        - [x] Update `ShoppingRouteScreen` with Busy Status & Detour Time <!-- id: 11 -->
+        - [x] Implement "One-Click Navigate" directly to parking/entrance <!-- id: 12 -->
+    - [x] **Phase 4: "On The Way" Logic**
+        - [x] Implement Routes API for Intermediate Waypoints (`googleMapsService.ts` support) <!-- id: 13 -->
+
+    - [ ] **Phase 5: Map Ultra (Intelligent Itinerary)**
+    - [ ] **Data Layer: "Any Store" Architecture**
+        - [x] Update `ShoppingItem` to support `store_id: 'any'` <!-- id: 14 -->
+        - [x] **AI Common Sense Implementation**
+            - [x] Update `schemas.ts` with `PRODUCT_CLASSIFICATION_SCHEMA` <!-- id: 15a -->
+            - [x] Update `prompts.ts` with classification prompt <!-- id: 15b -->
+            - [x] Implement `classifyProduct` in `scannerService.ts` <!-- id: 15c -->
+            - [x] Integrate into `productClassification.ts` <!-- id: 15d -->
+    - [ ] **Core Engine: Route Optimization**
+        - [ ] Create `ItineraryService` to calculate optimal stops (TSP-lite) <!-- id: 16 -->
+        - [ ] Implement "Risk Assessment" (Closing Time & Traffic checks) <!-- id: 17 -->
+    - [ ] **UI Layer: "Autopilot" Experience**
+        - [ ] Add "Ready to Go" / "Plan My Trip" smart button to Shopping List <!-- id: 18 -->
+        - [ ] Build `ItineraryCard` component (Multi-stop visualization) <!-- id: 19 -->
+    - [ ] **User Profile**
+        - [ ] Add Home Address setting for accurate start/end point calculations <!-- id: 20 -->
+
+- [ ] **Performance & Quality Optimization (Sprint 1)**
+    - [ ] **AI Caching System**
+        - [x] Implement in-memory cache (L1) in `productClassification.ts` <!-- id: 21 -->
+        - [x] Implement AsyncStorage cache (L2) with 7-day TTL <!-- id: 22 -->
+        - [ ] Convert to batch classification API <!-- id: 23 -->
+    - [ ] **Unit Testing Coverage**
+        - [x] Add tests for `productClassification.ts` <!-- id: 24 -->
+        - [ ] Add tests for `itineraryService.ts` <!-- id: 25 -->
+        - [ ] Configure Jest test runner <!-- id: 25a -->
+
+- [x] **Intelligence Upgrade (Sprint 2)**
+    - [x] **Personalized Classification**
+        - [x] Create `user_store_preferences` table schema <!-- id: 26 -->
+        - [x] Implement preference tracking logic <!-- id: 27 -->
+        - [x] Integrate into classification flow <!-- id: 28 -->
+    - [/] **Voice Input (Intelligent Agent)**
+        - [x] Integrate Expo Speech (TTS) <!-- id: 29 -->
+        - [x] Add basic voice button <!-- id: 30 -->
+        - [x] **Install `expo-av` & `expo-file-system`** (Recording) <!-- id: 32 -->
+        - [x] **Implement `VoiceService`** (Audio Capture + Quality Check) <!-- id: 33 -->
+        - [x] **Implement `analyzeVoiceCommand`** (Gemini Audio -> JSON + Timeout) <!-- id: 34 -->
+        - [x] **Update `QuickAddBar`** (Hold-to-Talk UI + Validation) <!-- id: 35 -->
+        - [x] **Production Optimizations** (Network timeout, Duration check, Error handling) <!-- id: 36 -->

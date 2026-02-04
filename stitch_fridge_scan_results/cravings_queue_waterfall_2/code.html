@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KitchenFlow - Cravings Queue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#007bff",
+              "background-light": "#f2f4f6", 
+              "background-dark": "#0f1923",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem", 
+              "lg": "1rem", 
+              "xl": "1.5rem", 
+              "full": "9999px"
+            },
+            boxShadow: {
+              'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+              'glass-hover': '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+            }
+          },
+        },
+      }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; 
+        }.glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+        .dark .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .glass-card-overlay {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .dark .glass-card-overlay {
+            background: rgba(15, 25, 35, 0.75);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-gray-900 dark:text-gray-100 min-h-screen flex flex-col relative overflow-hidden">
+<header class="fixed top-0 left-0 right-0 z-50 px-4 py-3 pb-4">
+<div class="glass-panel w-full rounded-full h-14 flex items-center justify-between px-2 shadow-glass">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-gray-800 dark:text-white">
+<span class="material-symbols-outlined text-[24px]">arrow_back_ios_new</span>
+</button>
+<h1 class="text-base font-bold tracking-tight text-gray-900 dark:text-white">Cravings Queue</h1>
+<div class="w-10"></div>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto pt-24 pb-28 px-4 w-full max-w-lg mx-auto scroll-smooth">
+<div class="flex gap-3">
+<div class="flex flex-col gap-3 w-1/2">
+<div class="relative group w-full rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+<img alt="Spicy Tom Yum Soup in a bowl" class="w-full h-[280px] object-cover" data-alt="Spicy red Tom Yum Soup with shrimp and herbs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqjIeIcWjTUHDXKN6AITxK2tCvBvND1W1beXPB2-JKTMdPX3xn7DMbqYr3a2clmKPO4z03xe7lXCfd4ZoyrbPRx3z7BLelBtaG4v7wTQH2WAcezJHDVDy5uGyfYSMjZyrJBaD6PxxWAEdDvrJV18do5qChPLE1br1my6OI_moxQ2f-d9iMrV46tdfyWaxLGz0Zp3K4DKfff1H9fU5eKi0NPL_m341jrzky7gVa20sWcsCsn2Gg9GnDFJPZbxxeAGN7fDwxezcphvqb"/>
+<div class="absolute bottom-0 left-0 right-0 glass-card-overlay p-3 flex justify-between items-center">
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-semibold text-gray-900 dark:text-white truncate">Tom Yum Soup</span>
+<span class="text-[10px] text-gray-600 dark:text-gray-400">20 mins ago</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0">mic</span>
+</div>
+</div>
+<div class="relative group w-full rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+<img alt="Fresh avocado toast with egg" class="w-full h-[160px] object-cover" data-alt="Sliced avocado on toasted bread with poached egg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMjl6mlNkwYqU5zIgR9AK8cnUBdaSYsKx5Y5XOy4UL2AKYANLQL1RbiyVCzjm7YetQZGQPik_jjBf1CQ8HzZyEbCLSNjSkn6LsTE9NANRZnveQlhc1aRtOlGQfIgKBMMrQdTX_lwA8GeXco1xJCkdrCjfjDL_cA3mvoFOf9lpADAVHCMYo7xnEgbetMJzzAoS1uBaYOPjPNqKA3acmChRy5NM0Q3TdrqZzA6XZ9X_k6F7NlWsS-7Wm39BOtcF8OULhsnBC1GzIIawB"/>
+<div class="absolute bottom-0 left-0 right-0 glass-card-overlay p-3 flex justify-between items-center">
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-semibold text-gray-900 dark:text-white truncate">Avocado Toast</span>
+<span class="text-[10px] text-gray-600 dark:text-gray-400">1 hour ago</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-gray-500 shrink-0">edit</span>
+</div>
+</div>
+<div class="relative group w-full rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+<img alt="Creamy Pasta Carbonara on plate" class="w-full h-[220px] object-cover" data-alt="Creamy pasta carbonara with black pepper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCci3IeoG9gb5a_0f79-9BMICvAxUuemjMtKigDXe-xPcG_dixkWJz3-tZZNrV6XFL4F618aWmY9VcMtfEp_mjNBonsMr3TbhTUJq-2MSxWKLTYuKUFEQRqxJLFfcRBsOK3EhiPrCKqVrThnwNCWKBuzPukQwy55MSAe81pmDkJrHh1HlTOqWEUQB_oEQ2qfvbgnzu_MsnoLoQSUbv3ECvCdUbpAJkiBEpXR9yhNd_x4yDnUsJnzH5konJRIcJfFyBOf9HAyQOmXNTI"/>
+<div class="absolute bottom-0 left-0 right-0 glass-card-overlay p-3 flex justify-between items-center">
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-semibold text-gray-900 dark:text-white truncate">Carbonara</span>
+<span class="text-[10px] text-gray-600 dark:text-gray-400">Yesterday</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0">mic</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 w-1/2 pt-6">
+<div class="relative group w-full rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+<img alt="Braised pork belly dish" class="w-full h-[200px] object-cover" data-alt="Rich dark braised pork belly with sauce" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATA6x26Iq7HUrubq184rwd8sYEow-sw3eBXYDlyIab7uNvpDIXITkYyU7BpVMc6tkZFexIrBSgC8L6GAQu_5J-YF7n3ZTnlNlbPxz-OeDlvZ6M6y8rWWC8HIMZTk9Vp7jgtUDW4n2smFBikoGoTTTstxOMoiHvLWgzckWOsNPpMc834HLewMk4rN_JD32zqk4AIbT8ejutbttofQ1jGI38UqACBbu74X6k7y_nJPdQw1i6C4tZPuG3f_2kYTJUk6zIZkcL_ouVtPRt"/>
+<div class="absolute bottom-0 left-0 right-0 glass-card-overlay p-3 flex justify-between items-center">
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-semibold text-gray-900 dark:text-white truncate">Braised Pork</span>
+<span class="text-[10px] text-gray-600 dark:text-gray-400">30 mins ago</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-gray-500 shrink-0">edit</span>
+</div>
+</div>
+<div class="relative group w-full rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+<img alt="Assorted sushi platter" class="w-full h-[260px] object-cover" data-alt="Colorful assorted sushi rolls on a wooden board" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlJWSP6mmSh2-yh4oC6mD3GgMu0SCbe4RutN5jPkPhsrwUvvIKk3CfeHouKgK-hj7bJUJrHeQqgSRlVdXLeTgZ0UR5Eb1vZLajMMEKVaY5UoGdS80iLOc-zeOyzO_p5Fm4FHrSZKH_SgFsTGHQcM0sbj2YmD1Lq4casl_W6cHySXFyV7ZJWyFhTZSRJ4Xy6V8dvT5wkTnRtryGTLzi2ztuMN-l5i4V4shAc6Tu4UxlIsNa5SVAEXx-MrnKpKIhkkoPWl9kfyNcW5uV"/>
+<div class="absolute bottom-0 left-0 right-0 glass-card-overlay p-3 flex justify-between items-center">
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-semibold text-gray-900 dark:text-white truncate">Sushi Platter</span>
+<span class="text-[10px] text-gray-600 dark:text-gray-400">2 hours ago</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0">mic</span>
+</div>
+</div>
+<div class="relative group w-full rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+<img alt="Pink berry smoothie in glass" class="w-full h-[180px] object-cover" data-alt="Pink berry smoothie topped with fresh fruit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZLgkz1_X1cBCsUjJAFzbKUVRQeXdU1I9fowIk1082J225WbJQF7T2IyXuQDA7ZMefaPMRcbWqTQbj01jmunDFvOI9X5_w3fDpiLl5nRAZFLAa0xXHnNTZJBG_VUmhxv7lSNodrs3IIC5zLa-HXeSTkYVQ947vy_GBQKHxutcQ2Xr02Xb5mXwX_8iLafGnZCoTCyz88w0l1KSPxW_WyOoydg-NGu2Vi68MRjzgiv-doGbywDQLlFYAZpsZ8rRW1djdX5VHZl1sOBIn"/>
+<div class="absolute bottom-0 left-0 right-0 glass-card-overlay p-3 flex justify-between items-center">
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-semibold text-gray-900 dark:text-white truncate">Berry Smoothie</span>
+<span class="text-[10px] text-gray-600 dark:text-gray-400">4 hours ago</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0">mic</span>
+</div>
+</div>
+</div>
+</div>
+<div class="h-8"></div>
+</main>
+<div class="fixed bottom-0 left-0 right-0 p-5 z-50 flex justify-center bg-gradient-to-t from-background-light via-background-light/80 to-transparent dark:from-background-dark dark:via-background-dark/80 pt-10 pointer-events-none">
+<button class="pointer-events-auto group w-full max-w-sm glass-panel rounded-full h-16 px-6 flex items-center justify-between shadow-glass hover:shadow-glass-hover transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white text-[24px]">mic</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-semibold text-gray-900 dark:text-white">New Craving</span>
+<span class="text-xs text-gray-500 dark:text-gray-400 font-normal">Hey, I want to eat...</span>
+</div>
+</div>
+<div class="flex items-center justify-center w-8 h-8 bg-gray-200 dark:bg-white/20 rounded-full group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-gray-600 dark:text-white text-[20px] group-hover:text-white">add</span>
+</div>
+</button>
+</div>
+</body></html>

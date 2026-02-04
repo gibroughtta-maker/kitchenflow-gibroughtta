@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KitchenFlow 所有页面预览</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-parchment:   #EADDCD;
+      --text-primary:   #4A3B32;
+      --text-heading:   #2E1F16;
+      --text-secondary: #8D745E;
+      --accent-caramel: #D98324;
+      --accent-hover:   #C87517;
+      --font-serif:     'Libre Baskerville', serif;
+      --font-sans:      'Lato', sans-serif;
+      --radius-soft:    4px;
+      --border-classic: 1px solid rgba(74, 59, 50, 0.2);
+      --border-double:  3px double #4A3B32;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-parchment);
+      color: var(--text-primary);
+      font-family: var(--font-serif);
+      margin: 0;
+      padding: 24px 16px 48px;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      color: var(--text-heading);
+      font-size: 1.75rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 8px;
+    }
+
+    .subtitle {
+      font-family: var(--font-sans);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.5);
+      border: var(--border-classic);
+      border-radius: var(--radius-soft);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(74,59,50,0.08);
+    }
+
+    .phone {
+      width: 100%;
+      aspect-ratio: 375 / 812;
+      max-height: 420px;
+      background: var(--bg-parchment);
+      border: 2px solid var(--text-secondary);
+      border-radius: 24px;
+      margin: 0 auto;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .phone-inner {
+      flex: 1;
+      overflow: hidden;
+      padding: 12px;
+      font-size: 10px;
+      line-height: 1.35;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .phone-inner .title { font-weight: 700; font-size: 11px; margin-bottom: 6px; color: var(--text-heading); }
+    .phone-inner .line { margin: 2px 0; }
+    .phone-inner .muted { color: var(--text-secondary); }
+    .phone-inner .accent { color: var(--accent-caramel); font-weight: 600; }
+
+    .card-title {
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      border-top: var(--border-classic);
+      text-align: center;
+    }
+
+    .card-route {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 0 14px 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>KitchenFlow 所有页面预览</h1>
+  <p class="subtitle">按路由与入口整理的 App 页面示意 · 设计令牌：parchment</p>
+
+  <div class="grid">
+    <!-- Home -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">KitchenFlow</div>
+          <div class="line muted">[ 相机取景 ]</div>
+          <div class="line">🍜 Cravings</div>
+          <div class="line">🛒 Shopping</div>
+          <div class="line">❄️ Inventory</div>
+          <div class="line accent">● 快门</div>
+          <div class="line">🧾 Scan Receipt</div>
+          <div class="line">📤 Upload</div>
+        </div>
+      </div>
+      <div class="card-title">首页 Home</div>
+      <div class="card-route">''</div>
+    </div>
+
+    <!-- Inventory -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Inventory · 库存</div>
+          <div class="line muted">All | Fridge | Freezer | Pantry</div>
+          <div class="line">Milk · 1 gallon · 5 days</div>
+          <div class="line">Tomatoes · 500g · fresh</div>
+          <div class="line">Rice · pantry</div>
+          <div class="line muted">下拉刷新</div>
+        </div>
+      </div>
+      <div class="card-title">库存 Inventory</div>
+      <div class="card-route">inventory</div>
+    </div>
+
+    <!-- Cravings -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Cravings · 想吃清单</div>
+          <div class="line muted">[ 输入菜名或链接 ]</div>
+          <div class="line">🍜 Tom Yum Soup</div>
+          <div class="line muted">+ 加购缺失食材</div>
+          <div class="line">🥘 Pasta Carbonara</div>
+          <div class="line muted">+ 加购</div>
+        </div>
+      </div>
+      <div class="card-title">想吃清单 Cravings</div>
+      <div class="card-route">cravings</div>
+    </div>
+
+    <!-- ShoppingList -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Shopping List</div>
+          <div class="line muted">[ 快速添加 ] 分享 · 路线</div>
+          <div class="line">☐ Shrimp 500g</div>
+          <div class="line">☐ Lemongrass</div>
+          <div class="line muted">☑ Milk</div>
+          <div class="line muted">在线成员 · 1</div>
+        </div>
+      </div>
+      <div class="card-title">购物清单 ShoppingList</div>
+      <div class="card-route">shopping</div>
+    </div>
+
+    <!-- Settings -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">← 返回 设置 ⚙️</div>
+          <div class="line">设备信息</div>
+          <div class="line muted">设备 ID: xxxxx...</div>
+          <div class="line">关于 · 版本 1.0.0</div>
+          <div class="line">🥫 常备食材 ›</div>
+          <div class="line">功能特性 ✓</div>
+        </div>
+      </div>
+      <div class="card-title">设置 Settings</div>
+      <div class="card-route">settings</div>
+    </div>
+
+    <!-- ScanResults -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Scan Results</div>
+          <div class="line muted">识别结果列表</div>
+          <div class="line">+ 保存到库存</div>
+          <div class="line">选择存储位置</div>
+        </div>
+      </div>
+      <div class="card-title">扫描结果 ScanResults</div>
+      <div class="card-route">scan</div>
+    </div>
+
+    <!-- FridgeScan -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Fridge Scan</div>
+          <div class="line muted">[ 选图 / 拍照 ]</div>
+          <div class="line">Fridge | Freezer | Pantry</div>
+          <div class="line accent">分析 → 结果</div>
+        </div>
+      </div>
+      <div class="card-title">冰箱扫描 FridgeScan</div>
+      <div class="card-route">fridge/scan</div>
+    </div>
+
+    <!-- ReceiptScan -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Receipt Scan</div>
+          <div class="line muted">[ 小票拍照 ]</div>
+          <div class="line">解析商品 → 加购</div>
+        </div>
+      </div>
+      <div class="card-title">小票扫描 ReceiptScan</div>
+      <div class="card-route">receipt/scan</div>
+    </div>
+
+    <!-- RecipeDetail -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Recipe · 食谱详情</div>
+          <div class="line">Tom Yum Soup</div>
+          <div class="line muted">食材 · 步骤</div>
+          <div class="line accent">加购缺失</div>
+        </div>
+      </div>
+      <div class="card-title">食谱详情 RecipeDetail</div>
+      <div class="card-route">recipe/:dishName</div>
+    </div>
+
+    <!-- Pantry -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Pantry · 常备食材</div>
+          <div class="line muted">库存追踪 · 补货提醒</div>
+          <div class="line">盐 · 油 · 米...</div>
+        </div>
+      </div>
+      <div class="card-title">常备食材 Pantry</div>
+      <div class="card-route">pantry</div>
+    </div>
+
+    <!-- JoinList -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Join List</div>
+          <div class="line muted">分享链接加入</div>
+          <div class="line accent">输入 token</div>
+        </div>
+      </div>
+      <div class="card-title">加入清单 JoinList</div>
+      <div class="card-route">join/:shareToken</div>
+    </div>
+
+    <!-- ShoppingWebView -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Shopping WebView</div>
+          <div class="line muted">内嵌超市/地图页</div>
+        </div>
+      </div>
+      <div class="card-title">购物网页 ShoppingWebView</div>
+      <div class="card-route">(从 Shopping 进入)</div>
+    </div>
+
+    <!-- ShoppingRoute -->
+    <div class="card">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="title">Shopping Route</div>
+          <div class="line muted">路线规划 · 多店</div>
+        </div>
+      </div>
+      <div class="card-title">购物路线 ShoppingRoute</div>
+      <div class="card-route">(从 Shopping 进入)</div>
+    </div>
+  </div>
+</body>
+</html>

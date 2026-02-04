@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KitchenFlow Inventory</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7cf2",
+                        "notion-bg": "#ffffff",
+                        "notion-border": "#efefef",
+                        "notion-text-main": "#37352f",
+                        "notion-text-sub": "#787774",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'liquid': 'inset 2px 2px 5px rgba(255, 255, 255, 0.9), inset -2px -2px 5px rgba(0, 0, 0, 0.05), 4px 4px 10px rgba(0, 0, 0, 0.05)',
+                        'liquid-hover': 'inset 3px 3px 6px rgba(255, 255, 255, 1), inset -3px -3px 6px rgba(0, 0, 0, 0.03), 6px 6px 12px rgba(0, 0, 0, 0.08)',
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-white text-notion-text-main font-sans;
+                -webkit-font-smoothing: antialiased;
+            }
+        }.liquid-droplet {
+            @apply relative flex items-center p-2 mb-4 mx-2 transition-all duration-300;
+            background: linear-gradient(145deg, #ffffff, #f3f4f6);
+            border-radius: 2rem 3rem 3rem 2rem / 3rem 2rem 2rem 3rem;box-shadow: 
+                -4px -4px 10px rgba(255,255,255, 1),
+                4px 4px 10px rgba(217, 219, 228, 0.6),
+                inset 2px 2px 4px rgba(255,255,255, 0.8),
+                inset -2px -2px 4px rgba(0,0,0, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .liquid-droplet:hover {
+            transform: scale(1.02);
+            box-shadow: 
+                -5px -5px 12px rgba(255,255,255, 1),
+                5px 5px 12px rgba(217, 219, 228, 0.8),
+                inset 2px 2px 4px rgba(255,255,255, 0.9),
+                inset -2px -2px 4px rgba(0,0,0, 0.01);
+        }.liquid-droplet::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 15px;
+            width: 40px;
+            height: 15px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%);
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+        .liquid-pill {
+            @apply relative flex items-center p-2 transition-all duration-300;
+            background: linear-gradient(145deg, #ffffff, #f0f2f5);
+            border-radius: 9999px;
+            box-shadow: 
+                -4px -4px 10px rgba(255,255,255, 1),
+                4px 4px 10px rgba(217, 219, 228, 0.6),
+                inset 2px 2px 4px rgba(255,255,255, 0.8),
+                inset -2px -2px 4px rgba(0,0,0, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .liquid-nav-pill {
+            @apply relative flex items-center w-full px-4 py-3 mb-6 transition-all duration-300;
+            background: linear-gradient(145deg, #ffffff, #f5f7fa);
+            border-radius: 9999px;
+            box-shadow: 
+                -6px -6px 14px rgba(255,255,255, 1),
+                6px 6px 14px rgba(200, 205, 220, 0.5),
+                inset 2px 2px 4px rgba(255,255,255, 0.9),
+                inset -1px -1px 3px rgba(0,0,0, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .liquid-nav-pill::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 20px;
+            width: 60%;
+            height: 45%;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.05) 100%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .liquid-button-circle {
+            @apply relative flex items-center justify-center size-10 rounded-full transition-all duration-300;
+            background: linear-gradient(145deg, #ffffff, #f3f4f6);
+            box-shadow: 
+                -3px -3px 6px rgba(255,255,255, 1),
+                3px 3px 6px rgba(217, 219, 228, 0.6),
+                inset 1px 1px 2px rgba(255,255,255, 0.8),
+                inset -1px -1px 2px rgba(0,0,0, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .liquid-button-circle:hover {
+            transform: translateY(-1px);
+            box-shadow: 
+                -4px -4px 8px rgba(255,255,255, 1),
+                4px 4px 8px rgba(217, 219, 228, 0.7),
+                inset 1px 1px 2px rgba(255,255,255, 0.9),
+                inset -1px -1px 2px rgba(0,0,0, 0.01);
+        }
+        .liquid-button-circle::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 30%;
+            height: 15%;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.1) 100%);
+            transform: rotate(-45deg);
+            pointer-events: none;
+        }
+        .liquid-pill-add {
+            @apply relative flex items-center justify-center h-[42px] w-[42px] transition-all duration-300 ml-2;
+            background: linear-gradient(145deg, #ffffff, #e6e8eb);
+            border-radius: 12px;
+            box-shadow: 
+                -3px -3px 8px rgba(255,255,255, 1),
+                3px 3px 8px rgba(217, 219, 228, 0.6),
+                inset 1px 1px 3px rgba(255,255,255, 0.9),
+                inset -1px -1px 3px rgba(0,0,0, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .liquid-pill-add:hover {
+             transform: translateY(-1px);
+             box-shadow: 
+                -4px -4px 10px rgba(255,255,255, 1),
+                4px 4px 10px rgba(217, 219, 228, 0.7),
+                inset 1px 1px 3px rgba(255,255,255, 0.95),
+                inset -1px -1px 3px rgba(0,0,0, 0.02);
+        }
+        .liquid-pill-add::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 15px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.2) 100%);
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+        .notion-icon-wrapper {
+            @apply flex items-center justify-center size-12 shrink-0 rounded-full bg-white ml-1 shadow-sm border border-gray-100 relative z-10;
+        }
+        .notion-icon-wrapper img {
+            @apply size-7 object-contain mix-blend-multiply opacity-90;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased">
+<div class="relative flex h-screen w-full flex-col bg-white overflow-hidden">
+<header class="flex flex-col px-6 pt-12 pb-4">
+<div class="liquid-nav-pill">
+<button class="flex items-center justify-center p-1 text-gray-500 hover:text-gray-800 transition-colors z-20">
+<span class="material-symbols-outlined text-2xl font-semibold">chevron_left</span>
+</button>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<h1 class="text-lg font-bold text-gray-800 tracking-tight">Inventory</h1>
+</div>
+</div>
+<div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2 pt-2">
+<button class="px-5 py-2.5 rounded-full bg-black text-white text-sm font-bold shadow-lg shadow-gray-200/50">Fridge</button>
+<button class="px-5 py-2.5 rounded-full bg-gray-100 text-gray-500 text-sm font-semibold hover:bg-gray-200 shadow-sm border border-transparent hover:border-gray-300 transition-all">Pantry</button>
+<button class="px-5 py-2.5 rounded-full bg-gray-100 text-gray-500 text-sm font-semibold hover:bg-gray-200 shadow-sm border border-transparent hover:border-gray-300 transition-all">Freezer</button>
+<button class="liquid-pill-add text-primary">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto no-scrollbar px-4 pb-32 pt-2 space-y-1">
+<div class="liquid-droplet group">
+<div class="notion-icon-wrapper">
+<img alt="Sourdough" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl5nIroABGkLxVqtsaiEwvghKLn3xaFHIE9935oI2MhIVs6pTRVKzXHDShVzzg4c0XIw4xQIO6D8Dk8IpFldVtQ-f8xZpZfyFoATT3J9AnKFvxyhpuIuc24zOBjZpTXw14owIIdIiM5qG6BdWRXQuYp8waM537GxfeUrlmwICT_9bZErBjQXNN7xk0U7bTEhKhXOyBwkBquzQBOYGwcwIX8u7_vER3veT3fFqf4vqVRlyEVk_vcMHDiebTsJp0dI2XkKCe-aXM5VkZ"/>
+</div>
+<div class="flex flex-col flex-1 pl-4 pr-3 py-1">
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-gray-900 leading-none">Artisan Sourdough</span>
+<span class="text-[10px] font-black text-orange-500 bg-orange-50/50 px-2 py-1 rounded-full border border-orange-100 uppercase tracking-wider backdrop-blur-sm">Today</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="size-1.5 rounded-full bg-green-400 mr-2"></span>
+<span class="text-xs font-medium text-gray-400">Pantry Essential</span>
+</div>
+</div>
+</div>
+<div class="liquid-droplet group">
+<div class="notion-icon-wrapper">
+<img alt="Milk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7NvJFLcKNoW0R4SQ0nbvSZiPFN0RI9Wxw3-k3DFSDn9r4YhVS90xKRrxOy0p9ytYBSRU1M1IWc6ghqzSGVLX7hitdjR69kH6ghX5Ffu8y-WUzBAGPLnwfQP1bJDnfbl6DNrdsE63j_b6iplT_jwzsZzBi4AaOWXosjrTyJGdRCEeZqlEWQQaWg2PrCZfA3VzW3gjvtRgcAIvVKUdodMQjwEOFnaVGVzbKyXB0NvANmFF6ofRnZw_SnNUq9dYaEkboMKKkVNOX3xIV"/>
+</div>
+<div class="flex flex-col flex-1 pl-4 pr-3 py-1">
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-gray-900 leading-none">Whole Milk</span>
+<span class="text-[10px] font-black text-green-600 bg-green-50/50 px-2 py-1 rounded-full border border-green-100 uppercase tracking-wider backdrop-blur-sm">Fresh</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="size-1.5 rounded-full bg-orange-400 mr-2"></span>
+<span class="text-xs font-medium text-gray-400">2 Days left</span>
+</div>
+</div>
+</div>
+<div class="liquid-droplet group">
+<div class="notion-icon-wrapper">
+<img alt="Eggs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPJE-oA5zAxud-S8dWQIj99HSzDR36kwcsHpqoMM4eg02NrsDZ61_0jcCADRR91i-LrYwd1EZSjZbxcsFl-IY-OSrMcOn8D6o_HV_Qap6aF-j33dPsHrpO-RsnNlWM4fUl0-J5QxxXL24a5LkKX847L6CwyQOHxipK6_hFhPspPPHqlhCqfevEpnmIi65McSpkNunSBuU_ifAUnPdl9WAvGGDa3ywJ1fOyqjtu28jgi3VOEG-q0IQUhc0siY_HdhirqWxyFbsxhSYR"/>
+</div>
+<div class="flex flex-col flex-1 pl-4 pr-3 py-1">
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-gray-900 leading-none">12 Eggs</span>
+<span class="text-[10px] font-black text-yellow-600 bg-yellow-50/50 px-2 py-1 rounded-full border border-yellow-100 uppercase tracking-wider backdrop-blur-sm">Soon</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="size-1.5 rounded-full bg-yellow-400 mr-2"></span>
+<span class="text-xs font-medium text-gray-400">Farm Fresh</span>
+</div>
+</div>
+</div>
+<div class="liquid-droplet group">
+<div class="notion-icon-wrapper">
+<img alt="Cheddar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1m8u93MjlJPTqtm2SlzOdTOzx9wxkbnRPNIwUONCrmBgdnUUx13R9FLz_F_H4vpLuAOJ6CVXMHABV-JJWaEiRIqXaCKq9iYLYmyskdLYHzUD_yvnyczXN7HiiZ_9Skb0l46BYpY0i22UZhKY_gMEyedCNhTOXOcDmJxnOby79dapbG9opYSI6MSAHg_48ca9-I7OPurKVDuUcPi_LwxFXVUccT-sWFp0AXiWGAh5EkZ0fHPeEt7wXI01gIDFN6CBuxe6Y8midz6Hi"/>
+</div>
+<div class="flex flex-col flex-1 pl-4 pr-3 py-1">
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-gray-900 leading-none">Cheddar</span>
+<span class="text-[10px] font-black text-red-600 bg-red-50/50 px-2 py-1 rounded-full border border-red-100 uppercase tracking-wider backdrop-blur-sm">Expiring</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="material-symbols-outlined text-red-400 text-[14px] mr-1">warning</span>
+<span class="text-xs font-medium text-red-400">Expires Today</span>
+</div>
+</div>
+</div>
+<div class="liquid-droplet group">
+<div class="notion-icon-wrapper">
+<img alt="Avocados" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6pJ2cY7W4efa4aoBDADtnQEmE8hW9JGFazcsqo_Bosf6-JunCSEJXsPw0J-LmjZdUJVOZuqhTuXPdPXoUn9WpavbX0Hch7vkNmIkBtPnPhHFYxOe-Fs1BtwmSyQbTDfYz_8o-kGsL51SShrKQR_826DH0Qtov4Wf5QzwKQsH9YnjAhlEpf5cpRePBWgWrSn_jJG3_19evwYruLSWQT1OXnitLr-trVqePWhv-ZhVrgTXB_SYOAhv0WhWfUqoWZr2wwP_NxdC7ZMxS"/>
+</div>
+<div class="flex flex-col flex-1 pl-4 pr-3 py-1">
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-gray-900 leading-none">Avocados</span>
+<span class="text-[10px] font-black text-emerald-600 bg-emerald-50/50 px-2 py-1 rounded-full border border-emerald-100 uppercase tracking-wider backdrop-blur-sm">Ripe</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="size-1.5 rounded-full bg-emerald-400 mr-2"></span>
+<span class="text-xs font-medium text-gray-400">3 Units</span>
+</div>
+</div>
+</div>
+<div class="liquid-droplet group">
+<div class="notion-icon-wrapper">
+<img alt="Hot Sauce" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTw1FNWsSaenaiCa4qXH4bhaaWBqqXYGpqV3zVF6qZUsXx9EORntFheEFWAqRSxQYZikANxbMW9eGdAvrL8gEsyZguiMXdjJhdEy4zQnPIStXDD2oAJu51NMYeVl06S7hNOQOEu3PH256MMlwgmLaMdWh_jEGCdnO-9fyquW_alQNKCSBcgtsUqy4Qu5WqsPIVhmo3xMRw7NxHiJDyNF3LxnognH_M7ynYfYt5hShrl4c_LiNOniCcK5zCSVGp_VWjQOz_TvnRBeRX"/>
+</div>
+<div class="flex flex-col flex-1 pl-4 pr-3 py-1">
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-gray-900 leading-none">Hot Sauce</span>
+<span class="text-[10px] font-black text-gray-500 bg-gray-100/50 px-2 py-1 rounded-full border border-gray-200 uppercase tracking-wider backdrop-blur-sm">Full</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="text-xs font-medium text-gray-400">Condiments</span>
+</div>
+</div>
+</div>
+<div class="liquid-droplet group">
+<div class="notion-icon-wrapper">
+<img alt="Oatmeal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8onFFYvpg0qy27KyBpkd98oWoI_WG2AbxJEVjszycCqWMp8pJ1avDYlUpRF7NMICzUfoh2RVYpgMfxE61hrhp3H--kZ-wgvNzQ_TlObcyHea9tWszDBSabFUADG7lp-DNhfYwfi0UpvMdSiwj0p8L9oYitfon-SKsZi7ueoCtGajByYrcZNbCI8hTRD5rSmPpMZBWXLlPPNEBy1n2054Z13En85-eUyl8RdfsHHRkMcCYa9HFQ9lMEAUkEU3fJgH8IwU9ANXaufuo"/>
+</div>
+<div class="flex flex-col flex-1 pl-4 pr-3 py-1">
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-gray-900 leading-none">Organic Oats</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="material-symbols-outlined text-gray-300 text-[14px] mr-1">favorite</span>
+<span class="text-xs font-medium text-gray-400">Pantry Essential</span>
+</div>
+</div>
+</div>
+<div class="liquid-droplet group">
+<div class="notion-icon-wrapper">
+<img alt="Ice" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGUdGrgEZZmKzztHSKmxmPOc_s2NWIlBzfEd2UjE1fdLgcVQz8YuwKyWdsSDbD_IK8bchMlqqq2KrNnmF1PZvHMIV4T4m1TxiXZSUU_hPCa7PW1eHYsbkwpU7GjYMfhugWmrjqHRAHuQYLmDayXI0i9pNTB3xiRYTlbkpDfCspDPK1HNgCEYRlHZxVCIKyb5Oqo1xW10YODgFeDSYU6lFtDHMIX6LfQEfL4spx1fBHhaCyjWyt_K-sGpj2Jre_sJtSvcqC6XPwSFHy"/>
+</div>
+<div class="flex flex-col flex-1 pl-4 pr-3 py-1">
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-gray-900 leading-none">Frozen Berries</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="material-symbols-outlined text-blue-300 text-[14px] mr-1">ac_unit</span>
+<span class="text-xs font-medium text-gray-400">Freezer • 1kg</span>
+</div>
+</div>
+</div>
+</main>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/80 to-transparent">
+<div class="liquid-pill flex items-center justify-between px-3 py-2.5">
+<button class="flex items-center justify-center size-10 rounded-full bg-[#007AFF] text-white shadow-lg shadow-blue-200 hover:bg-blue-600 transition-colors">
+<span class="material-symbols-outlined text-xl">mic</span>
+</button>
+<div class="flex flex-col items-start flex-1 px-4">
+<span class="text-sm font-bold text-gray-900">New Item</span>
+<span class="text-xs font-medium text-gray-400">Speak to add...</span>
+</div>
+<button class="flex items-center justify-center size-8 rounded-full bg-gray-200/80 text-gray-500 hover:bg-gray-300/80 transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

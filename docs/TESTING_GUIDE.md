@@ -1,205 +1,89 @@
-# 购物清单功能 - 测试指南
+# Intelligent Voice Agent 测试指南
 
-## 🚀 快速开始
+这份指南基于第一性原理设计，旨在验证语音代理的核心功能、边界条件和系统鲁棒性。
 
-### 步骤 1: 运行数据库迁移
+## 🛠️ 准备工作 (Prerequisites)
 
-1. 打开 [Supabase Dashboard](https://app.supabase.com)
-2. 选择你的项目
-3. 进入 **SQL Editor**
-4. 运行 `docs/sql/shopping_list_migration.sql` 中的 SQL
-5. 确认迁移成功（应该看到 "Success" 消息）
+1.  **物理设备**: 由于涉及麦克风，强烈建议在真机 (iOS/Android) 上测试，模拟器可能无法正确录音。
+2.  **API Key**: 确保 `src/services/scannerService.ts` 中的 `globalConfig` 已配置有效的 Gemini API Key。
+3.  **网络环境**: 确保设备连接到可以访问 Google Gemini API 的网络。
+4.  **音量**: 调大设备音量以听到 TTS 反馈。
 
-详细步骤请参考 [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
+---
 
-### 步骤 2: 启动应用
+## 🧪 测试用例清单
 
-```bash
-cd kitchenflow-app
-npm start
-```
+### 第 1 阶段: 基础功能验证 (Happy Path)
+*验证核心价值：音频是否能转化为购物清单项*
 
-### 步骤 3: 运行自动化测试
+#### 用例 1.1: 麦克风权限流程
+- **操作**: 首次点击红色的麦克风按钮。
+- **预期**: 系统弹出“请求麦克风权限”对话框。
+- **操作**: 点击“允许”。
+- **预期**: 权限获批，无错误提示。
 
-有两种方式运行测试：
+#### 用例 1.2: 简单商品添加
+- **操作**: 按住按钮，清晰地说：“买一盒牛奶”。(Buy a carton of milk)
+- **释放**: 松开按钮。
+- **预期**:
+    1.  松开时有震动反馈。
+    2.  按钮显示转圈加载动画。
+    3.  约 1-3 秒后，购物清单出现 "Milk" (或 "牛奶")。
+    4.  TTS 语音播报: "Added 1 item" 或 "Added Milk"。
 
-#### 方式 A: 使用测试屏幕（推荐）
+---
 
-1. 在应用中导航到测试屏幕：
-   - 从 HomeScreen 添加导航链接，或
-   - 直接访问：`kitchenflow://dev/test-shopping`
+### 第 2 阶段: 智能解析验证 (Advanced Intelligence)
+*验证 AI 价值：理解意图与上下文*
 
-2. 点击 "Run All Tests" 按钮
-3. 查看测试结果
+#### 用例 2.1: 菜谱扩展 (Recipe Expansion)
+- **操作**: 按住按钮，说：“我想做麻婆豆腐”。(I want to cook Mapo Tofu)
+- **预期**:
+    1.  列表自动添加多个相关食材：Tofu (豆腐), Minced Meat (肉末), Chili Paste (豆瓣酱/辣椒酱) 等。
+    2.  TTS 语音播报: "Added 3 ingredients" (数量可能不同)。
 
-#### 方式 B: 在代码中调用
+#### 用例 2.2: 包含数量单位
+- **操作**: 按住按钮，说：“买 5 个苹果和 2 公斤大米”。
+- **预期**:
+    1.  列表添加 "Apple" (Qty: 5, Unit: pcs/个)。
+    2.  列表添加 "Rice" (Qty: 2, Unit: kg)。
 
-```typescript
-import { runAllTests } from './src/utils/testShoppingList';
-import { getOrCreateDefaultList } from './src/services/shoppingService';
+---
 
-// 在某个地方调用
-const list = await getOrCreateDefaultList(deviceId);
-await runAllTests(list.id);
-```
+### 第 3 阶段: 生产级优化验证 (Edge Cases & Robustness)
+*验证系统稳定性：在非理想情况下的表现*
 
-## 📋 手动测试清单
+#### 用例 3.1: 防误触 (Short Recording)
+- **操作**: 快速点击按钮（按住时间小于 0.5 秒）。
+- **预期**:
+    1.  **不**发起网络请求。
+    2.  弹出提示框：“录音太短，请长按按钮并清晰说话”。
 
-### 1. 首次使用引导测试
+#### 用例 3.2: 无效音频 (Invalid Audio)
+- **操作**: 按住按钮 2 秒，但完全不说话（保持静音）。
+- **预期**:
+    1.  Gemini 分析后发现无内容。
+    2.  TTS 语音播报: "Sorry, I didn't catch that."。
 
-- [ ] 打开购物清单页面
-- [ ] 应该显示商店选择模态框
-- [ ] 尝试不选择任何商店，继续按钮应该禁用
-- [ ] 选择至少 1 个商店
-- [ ] 点击继续，模态框应该消失
-- [ ] 关闭并重新打开应用，模态框不应该再出现
+#### 用例 3.3: 网络超时 (Network Timeout)
+- **操作**: (如果方便) 断开手机网络或使用弱网工具。按住按钮说话并松开。
+- **预期**:
+    1.  加载动画持续 10 秒（设定的超时时间）。
+    2.  弹出提示框：“网络超时，请检查网络连接后重试”。
+    3.  加载状态结束，恢复正常界面。
 
-### 2. 添加商品测试
+---
 
-- [ ] 使用 QuickAddBar 添加商品 "苹果"
-- [ ] 商品应该出现在对应的商店分组下
-- [ ] 商品应该显示商店图标
-- [ ] 添加更多商品到不同商店
-- [ ] 商品应该按商店正确分组
+## 🔧 故障排查 (Troubleshooting)
 
-### 3. 商店分组显示测试
+| 现象 | 可能原因 | 解决方案 |
+|------|---------|----------|
+| **点击按钮无反应** | 权限被拒绝 | 去系统设置中开启 App 的麦克风权限。 |
+| **一直显示加载圈** | 网络不通或 API 阻塞 | 检查网络；确认 API Key 是否欠费或被限流。 |
+| **提示 "API Error"** | API Key 无效 | 检查代码中是否配置了正确的 `apiKey`。 |
+| **识别不准** | 环境嘈杂 | 请在相对安静的环境下测试；尝试大声一点。 |
+| **无语音反馈** | 设备静音 | 检查手机媒体音量是否由于静音模式被关闭。 |
 
-- [ ] 添加商品到 Sainsbury's
-- [ ] 添加商品到 Asda
-- [ ] 添加商品到 Morrisons
-- [ ] 每个商店应该有独立的标题和图标
-- [ ] 每个商店应该显示商品数量
+---
 
-### 4. 勾选和自动删除测试
-
-- [ ] 勾选一个商品
-- [ ] 商品应该显示为已勾选状态
-- [ ] 3 秒后应该显示 "Undo" 提示栏
-- [ ] 商品应该自动删除
-- [ ] 点击 "Undo" 应该恢复商品
-- [ ] 再次勾选，等待 3 秒，不点击 Undo，商品应该被删除
-
-### 5. 商店偏好保存测试
-
-- [ ] 选择多个商店
-- [ ] 关闭应用
-- [ ] 重新打开应用
-- [ ] 商店偏好应该被保存
-- [ ] 添加新商品应该使用上次使用的商店
-
-### 6. 数据库字段测试
-
-在 Supabase Dashboard 的 Table Editor 中检查：
-
-- [ ] `shopping_items` 表应该有 `store_id` 列
-- [ ] `shopping_items` 表应该有 `unit` 列
-- [ ] `shopping_items` 表应该有 `source` 列
-- [ ] `shopping_items` 表应该有 `source_craving_id` 列
-- [ ] `shopping_items` 表应该有 `notes` 列
-- [ ] 新添加的商品应该有正确的 `store_id` 值
-
-## 🐛 常见问题排查
-
-### 问题: 测试失败 - "column does not exist"
-
-**原因**: 数据库迁移未运行或失败
-
-**解决**:
-1. 检查 Supabase Dashboard 中是否成功运行了迁移
-2. 运行验证查询（见 MIGRATION_GUIDE.md）
-3. 如果列不存在，重新运行迁移 SQL
-
-### 问题: 首次使用引导不显示
-
-**原因**: AsyncStorage 中已有旧的偏好数据
-
-**解决**:
-1. 清除应用数据（卸载重装，或清除 AsyncStorage）
-2. 或手动删除：`@kitchenflow:store_preferences` key
-
-### 问题: 商品不显示商店图标
-
-**原因**: 商品没有 `store_id` 或 `store_id` 无效
-
-**解决**:
-1. 检查数据库中商品的 `store_id` 字段
-2. 确保 `store_id` 是有效的 UKSupermarket 类型值
-3. 重新添加商品
-
-### 问题: 自动删除不工作
-
-**原因**: 可能是定时器或状态管理问题
-
-**解决**:
-1. 检查控制台是否有错误
-2. 确认 `deleteShoppingItem` 函数正常工作
-3. 检查 `undoTimeoutRef` 是否正确设置
-
-## 📊 测试结果示例
-
-成功的测试输出应该类似：
-
-```
-🧪 Starting Shopping List Feature Tests...
-
-✅ Schema test passed - new columns accessible
-✅ Add item with store test passed
-✅ Find duplicate test passed
-✅ Merge items test passed
-✅ Update store test passed
-✅ Update quantity test passed
-
-📊 Test Results: 6 passed, 0 failed
-```
-
-## 🔍 调试技巧
-
-### 查看 AsyncStorage 数据
-
-```typescript
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// 查看所有键
-const keys = await AsyncStorage.getAllKeys();
-console.log('All keys:', keys);
-
-// 查看商店偏好
-const prefs = await AsyncStorage.getItem('@kitchenflow:store_preferences');
-console.log('Store preferences:', prefs);
-```
-
-### 查看数据库数据
-
-在 Supabase Dashboard 的 Table Editor 中：
-1. 选择 `shopping_items` 表
-2. 查看最新添加的商品
-3. 检查 `store_id`, `unit`, `source` 等字段
-
-### 启用详细日志
-
-在 `shoppingService.ts` 中添加：
-
-```typescript
-console.log('Adding item:', { listId, name, storeId, quantity, unit });
-```
-
-## ✅ 完成标准
-
-所有测试通过后，你应该能够：
-
-1. ✅ 首次使用时看到商店选择引导
-2. ✅ 添加商品并自动分配到商店
-3. ✅ 商品按商店分组显示
-4. ✅ 勾选商品后 3 秒自动删除（带 Undo）
-5. ✅ 商店偏好被正确保存和恢复
-6. ✅ 所有数据库字段正常工作
-
-## 📝 下一步
-
-测试通过后，可以继续实施：
-
-- Phase 4: 编辑功能（ItemEditModal）
-- Phase 5: Craving 集成
-- Phase 6: 在线购物 WebView
-
-参考 [SHOPPING_LIST_IMPLEMENTATION.md](./SHOPPING_LIST_IMPLEMENTATION.md)
+> **注意**: 测试完成后，如果发现 Gemini 响应速度过慢，可以考虑在 `scannerService.ts` 中暂时切换回 `gemini-1.5-flash` 模型进行对比测试。

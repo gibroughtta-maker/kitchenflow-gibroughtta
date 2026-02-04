@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Family Shopping List</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007bff",
+                        "asda-green": "#78BE20",
+                        "tesco-blue": "#00539F",
+                        "lidl-blue": "#0050AA",
+                        "lidl-red": "#E3000F",
+                        "lidl-yellow": "#FFD500",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "3xl": "2.5rem",
+                        "full": "9999px"
+                    },
+                    backgroundImage: {
+                        'glass-gradient': 'linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #eef2ff 100%)',
+                        'glass-gradient-dark': 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">.glass-panel {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05)
+    }
+.glass-panel-thick {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1)
+    }
+.dark .glass-panel {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2)
+    }
+.glass-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02)
+    }
+.dark .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05)
+    }.liquid-droplet {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02), inset 0 4px 6px rgba(255, 255, 255, 0.9), inset 0 -2px 4px rgba(0, 0, 0, 0.02);
+    border-radius: 9999px;}
+.dark .liquid-droplet {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.4));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2)
+    }
+.liquid-pill-header {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.03), 
+        inset 0 1px 1px rgba(255, 255, 255, 1),
+        inset 0 -4px 8px rgba(230, 240, 255, 0.4);
+}
+.dark .liquid-pill-header {
+    background: linear-gradient(to bottom, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-block;
+    vertical-align: middle;
+    background-origin: border-box;
+    user-select: none;
+    flex-shrink: 0;
+    border-radius: 9999px
+    }
+input[type="checkbox"]:checked {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAGhMmeekdPuN6mMVggt40BXPAvDkCdz45GvSgHJYT9HVgEBZzuaFqL2JjQqacKN9W73V1W3r8FBPcgK_yRkVAvjd1g2oGxAUDuCu2I_UngS0iEA2odQd3dP5dyzNvSz4aRlpr0bGMr_8NSH_3p5oFzcFYc_rAfuWY83D91dJTWdPccwxUsfilGmN_eX0TMhnSnhfTu5E1OPRKkdVWYCdZO_dT3RcK3K-jXSEtbOPHmuN3J10MpS6QaajxWqHDnsqsbN2dgThu5z2Sp);
+    background-color: #007bff;
+    border-color: #007bff
+    }
+details summary::-webkit-details-marker {
+    display: none
+    }
+details[open] .expand-icon {
+    transform: rotate(180deg)
+    }
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom)
+    }</style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased font-display text-slate-900 dark:text-white bg-glass-gradient dark:bg-glass-gradient-dark min-h-screen relative overflow-x-hidden selection:bg-primary/20">
+<div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-primary/10 rounded-full blur-[100px] opacity-60"></div>
+<div class="absolute bottom-[20%] left-[-10%] w-80 h-80 bg-blue-300/20 rounded-full blur-[80px] opacity-50"></div>
+<div class="absolute top-[40%] right-[30%] w-64 h-64 bg-cyan-200/20 rounded-full blur-[60px] opacity-40"></div>
+</div>
+<div class="relative z-10 flex h-auto w-full flex-col">
+<nav class="sticky top-0 z-50 px-4 py-4 backdrop-blur-[2px]">
+<div class="liquid-pill-header w-full h-16 rounded-full flex items-center justify-between px-3">
+<button class="flex items-center justify-center w-10 h-10 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[24px]">chevron_left</span>
+</button>
+<h1 class="text-[#101418] dark:text-white text-lg font-bold leading-tight tracking-tight text-center absolute left-1/2 transform -translate-x-1/2">
+            Shopping List
+        </h1>
+<div class="flex items-center -space-x-3">
+<div class="relative group cursor-pointer z-20">
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 bg-gray-200 bg-cover bg-center shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6tnrEKCantrlwypqUH5sWQ2cXJ0tDvRtpNZH-xSGbAWN1WGsQDtnHKYQFFHYEGK62xynimsD9_5Y1rhEnKJ0Dzl10KchgnZTD7rjVQSs8COeh8wHL47kWSUQ0uir1VYf0VtC257aFhiG62GA5SCnqbnBtxnSAdg_sCOurHdU4cHy9N1rHasRjJlcCrtED9ag2ZTxwHQsSejmieFMkWvex3tfzXRZ1ElQMQadRb8VureElmaxu0GSvIatLR149NP54S4X_cOWqPWqU');"></div>
+<span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-500 ring-2 ring-white dark:ring-slate-800"></span>
+</div>
+<div class="relative group cursor-pointer z-10">
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 bg-gray-200 bg-cover bg-center shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA8HthqOOZYzZEJcSiMj3CF2WeLCa_3niNVKjaohUH3Lk1Qy4XvL2Ka1cDEru39PU-EasDTFK4BLddFymav5R-DAc2cYq1VcxEqIul6StsDzEnJZLgTXkCwYnrnBbBbN8hEBfFuxRIKXtjh_-qKlyaZZrZJd0niVQ41wLYNi2qbo96ORS1UQQvPsO79sr4o6nE5fO5BzRaAGJ6vGqhtxDkr6PnHdx7sQGXiyex1B5FgMwCpBLFDM4aBXdZwf_RK92h-GYJ_EBkuL4fc');"></div>
+<span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-500 ring-2 ring-white dark:ring-slate-800"></span>
+</div>
+<button class="relative group cursor-pointer z-0 ml-1 !ml-[-8px]">
+<div class="w-10 h-10 rounded-full border-2 border-dashed border-slate-300 dark:border-slate-500 bg-white/50 dark:bg-slate-700/50 flex items-center justify-center shadow-sm hover:bg-white/80 dark:hover:bg-slate-600/50 transition-colors">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-300 text-[20px]">person_add</span>
+</div>
+</button>
+</div>
+</div>
+</nav>
+<main class="flex-1 px-4 py-2 space-y-5 pb-52">
+<details class="group/section" open="">
+<summary class="list-none cursor-pointer">
+<div class="glass-panel-thick rounded-3xl pl-3 pr-5 py-4 flex items-center gap-3 active:scale-[0.98] transition-all relative overflow-hidden shadow-lg shadow-blue-900/5">
+<div class="relative z-10 flex items-center justify-center h-full pl-1">
+<input class="h-6 w-6 rounded-full border-2 border-slate-300 text-primary focus:ring-0 focus:ring-offset-0 bg-white shadow-sm cursor-pointer hover:border-primary transition-colors" type="checkbox"/>
+</div>
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-tesco-blue opacity-0"></div>
+<div class="flex items-center justify-center w-10 h-10 rounded-2xl bg-blue-50 text-tesco-blue shadow-inner border border-blue-100/50">
+<span class="material-symbols-outlined text-[24px]">storefront</span>
+</div>
+<div class="flex-1 flex flex-col">
+<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight">Tesco</h3>
+<span class="text-xs text-slate-500 font-medium">3 items needed</span>
+</div>
+<span class="material-symbols-outlined expand-icon text-slate-400 transition-transform duration-200">expand_more</span>
+</div>
+</summary>
+<div class="mt-4 space-y-3 px-1">
+<div class="liquid-droplet rounded-full p-1 overflow-hidden group">
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-6 items-center">
+<input class="h-6 w-6 rounded-full border-slate-300 text-tesco-blue focus:ring-offset-0 focus:ring-tesco-blue/20 bg-white/60 dark:bg-slate-800 dark:border-slate-600 cursor-pointer" id="item-milk" name="item-milk" type="checkbox"/>
+</div>
+<div class="flex flex-1 flex-col">
+<label class="font-semibold text-slate-800 dark:text-white text-base cursor-pointer" for="item-milk">Semi-Skimmed Milk</label>
+<p class="text-xs text-slate-500 mt-0.5">4 Pints</p>
+</div>
+</div>
+</div>
+<div class="liquid-droplet rounded-full p-1 overflow-hidden group">
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-6 items-center">
+<input class="h-6 w-6 rounded-full border-slate-300 text-tesco-blue focus:ring-offset-0 focus:ring-tesco-blue/20 bg-white/60 dark:bg-slate-800 dark:border-slate-600 cursor-pointer" id="item-bread" name="item-bread" type="checkbox"/>
+</div>
+<div class="flex flex-1 flex-col">
+<label class="font-semibold text-slate-800 dark:text-white text-base cursor-pointer" for="item-bread">Hovis Best of Both</label>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="w-4 h-4 rounded-full bg-cover bg-center ring-1 ring-white shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6tnrEKCantrlwypqUH5sWQ2cXJ0tDvRtpNZH-xSGbAWN1WGsQDtnHKYQFFHYEGK62xynimsD9_5Y1rhEnKJ0Dzl10KchgnZTD7rjVQSs8COeh8wHL47kWSUQ0uir1VYf0VtC257aFhiG62GA5SCnqbnBtxnSAdg_sCOurHdU4cHy9N1rHasRjJlcCrtED9ag2ZTxwHQsSejmieFMkWvex3tfzXRZ1ElQMQadRb8VureElmaxu0GSvIatLR149NP54S4X_cOWqPWqU');"></div>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Added by Dad</p>
+</div>
+</div>
+</div>
+</div>
+<div class="liquid-droplet rounded-full p-1 overflow-hidden group opacity-70">
+<div class="flex items-center gap-4 px-4 py-3 bg-slate-50/30 dark:bg-slate-900/20">
+<div class="flex h-6 items-center">
+<input checked="" class="h-6 w-6 rounded-full border-slate-300 text-tesco-blue focus:ring-offset-0 focus:ring-tesco-blue/20 bg-white/60 dark:bg-slate-800 dark:border-slate-600 opacity-60 cursor-pointer" id="item-cereal" name="item-cereal" type="checkbox"/>
+</div>
+<div class="flex flex-1 flex-col opacity-60">
+<label class="font-semibold text-slate-800 dark:text-white text-base line-through decoration-slate-400 cursor-pointer" for="item-cereal">Corn Flakes</label>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="w-4 h-4 rounded-full bg-cover bg-center ring-1 ring-white shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbUxo3TdTR2x8C7l3sMdf4KBW9druWfvyOVorbkipo4nuNYBqwcgghvR3-a7vob6sEbUpkE5iVGrUERwgXE_WhCpIBXs-1BYlFyUUgLFyGBRZD6eHEWerYfLx45ocQcQo7gohVUukxT44-oACVlT18nUjwwUlE-EN0Ud0uyf4pjUYhiT2TmCeDYZiS_zNT7u4rpbtiK7egvJu19VXN3WtN8cwPGG1ieAFwF-frXj6Y6xlRIVcgDGb--zdrT1QQCgdFAVzAY0YbyEZ5');"></div>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Mom bought it</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</details>
+<details class="group/section" open="">
+<summary class="list-none cursor-pointer">
+<div class="glass-panel-thick rounded-3xl pl-3 pr-5 py-4 flex items-center gap-3 active:scale-[0.98] transition-all relative overflow-hidden shadow-lg shadow-blue-900/5">
+<div class="relative z-10 flex items-center justify-center h-full pl-1">
+<input class="h-6 w-6 rounded-full border-2 border-slate-300 text-primary focus:ring-0 focus:ring-offset-0 bg-white shadow-sm cursor-pointer hover:border-primary transition-colors" type="checkbox"/>
+</div>
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-asda-green opacity-0"></div>
+<div class="flex items-center justify-center w-10 h-10 rounded-2xl bg-green-50 text-asda-green shadow-inner border border-green-100/50">
+<span class="material-symbols-outlined text-[24px]">shopping_basket</span>
+</div>
+<div class="flex-1 flex flex-col">
+<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight">ASDA</h3>
+<span class="text-xs text-slate-500 font-medium">2 items needed</span>
+</div>
+<span class="material-symbols-outlined expand-icon text-slate-400 transition-transform duration-200">expand_more</span>
+</div>
+</summary>
+<div class="mt-4 space-y-3 px-1">
+<div class="liquid-droplet rounded-full p-1 overflow-hidden group">
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-6 items-center">
+<input class="h-6 w-6 rounded-full border-slate-300 text-asda-green focus:ring-offset-0 focus:ring-asda-green/20 bg-white/60 dark:bg-slate-800 dark:border-slate-600 cursor-pointer" id="item-pizza" name="item-pizza" type="checkbox"/>
+</div>
+<div class="flex flex-1 flex-col">
+<label class="font-semibold text-slate-800 dark:text-white text-base cursor-pointer" for="item-pizza">Frozen Pizza</label>
+<p class="text-xs text-asda-green font-bold mt-1 px-2 py-0.5 bg-green-100/60 rounded-full inline-block w-max backdrop-blur-sm">
+                                Rollback £2.50
+                            </p>
+</div>
+</div>
+</div>
+<div class="liquid-droplet rounded-full p-1 overflow-hidden group">
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-6 items-center">
+<input class="h-6 w-6 rounded-full border-slate-300 text-asda-green focus:ring-offset-0 focus:ring-asda-green/20 bg-white/60 dark:bg-slate-800 dark:border-slate-600 cursor-pointer" id="item-cola" name="item-cola" type="checkbox"/>
+</div>
+<div class="flex flex-1 flex-col">
+<label class="font-semibold text-slate-800 dark:text-white text-base cursor-pointer" for="item-cola">Diet Cola</label>
+<p class="text-xs text-slate-500 mt-0.5">2L Bottle</p>
+</div>
+</div>
+</div>
+</div>
+</details>
+<details class="group/section">
+<summary class="list-none cursor-pointer">
+<div class="glass-panel-thick rounded-3xl pl-3 pr-5 py-4 flex items-center gap-3 active:scale-[0.98] transition-all relative overflow-hidden shadow-lg shadow-blue-900/5">
+<div class="relative z-10 flex items-center justify-center h-full pl-1">
+<input class="h-6 w-6 rounded-full border-2 border-slate-300 text-primary focus:ring-0 focus:ring-offset-0 bg-white shadow-sm cursor-pointer hover:border-primary transition-colors" type="checkbox"/>
+</div>
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-lidl-blue opacity-0"></div>
+<div class="flex items-center justify-center w-10 h-10 rounded-2xl bg-blue-50 text-lidl-blue shadow-inner border border-blue-100/50">
+<span class="material-symbols-outlined text-[24px]">local_mall</span>
+</div>
+<div class="flex-1 flex flex-col">
+<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight">Lidl</h3>
+<span class="text-xs text-slate-500 font-medium">Bakery trip needed</span>
+</div>
+<span class="inline-flex items-center rounded-full bg-lidl-yellow/30 px-2.5 py-1 text-xs font-bold text-amber-800 ring-1 ring-inset ring-amber-600/10 backdrop-blur-sm shadow-sm mr-2">Fresh</span>
+<span class="material-symbols-outlined expand-icon text-slate-400 transition-transform duration-200">expand_more</span>
+</div>
+</summary>
+<div class="mt-4 space-y-3 px-1">
+<div class="liquid-droplet rounded-full p-1 overflow-hidden group">
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-6 items-center">
+<input class="h-6 w-6 rounded-full border-slate-300 text-lidl-blue focus:ring-offset-0 focus:ring-lidl-blue/20 bg-white/60 dark:bg-slate-800 dark:border-slate-600 cursor-pointer" id="item-croissant" name="item-croissant" type="checkbox"/>
+</div>
+<div class="flex flex-1 flex-col">
+<label class="font-semibold text-slate-800 dark:text-white text-base cursor-pointer" for="item-croissant">Butter Croissants</label>
+<p class="text-sm text-lidl-blue dark:text-blue-400 font-medium mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">bakery_dining</span>
+                                Bakery Section
+                            </p>
+</div>
+</div>
+</div>
+<div class="liquid-droplet rounded-full p-1 overflow-hidden group">
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-6 items-center">
+<input class="h-6 w-6 rounded-full border-slate-300 text-lidl-blue focus:ring-offset-0 focus:ring-lidl-blue/20 bg-white/60 dark:bg-slate-800 dark:border-slate-600 cursor-pointer" id="item-cheese" name="item-cheese" type="checkbox"/>
+</div>
+<div class="flex flex-1 flex-col">
+<label class="font-semibold text-slate-800 dark:text-white text-base cursor-pointer" for="item-cheese">Gouda Cheese Slices</label>
+</div>
+</div>
+</div>
+</div>
+</details>
+</main>
+<div class="fixed bottom-0 left-0 w-full z-50 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-slate-900 dark:via-slate-900/80 safe-area-bottom pb-8 pt-12 pointer-events-none flex flex-col gap-3">
+<div class="max-w-md mx-auto px-4 w-full pointer-events-auto">
+<div class="relative w-full rounded-full flex items-center justify-between shadow-[0_4px_24px_-4px_rgba(0,123,255,0.08)] bg-white/90 dark:bg-slate-800/90 border border-white/60 dark:border-white/10 ring-1 ring-slate-100 dark:ring-slate-700 backdrop-blur-2xl transition-transform h-16 pl-1 pr-1 overflow-hidden">
+<button class="flex flex-col items-center justify-center gap-0.5 w-20 pl-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete_sweep</span>
+<span class="text-[10px] font-semibold leading-none">Clear Done</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-700 mx-1"></div>
+<button class="flex-1 h-12 ml-2 rounded-full bg-primary hover:bg-blue-600 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 text-white font-bold text-[16px]">
+<span class="material-symbols-outlined text-[22px] fill-current">shopping_cart</span>
+        Start Shopping
+    </button>
+</div>
+</div>
+<div class="max-w-md mx-auto px-4 w-full pointer-events-auto">
+<div class="relative w-full rounded-full p-2 pl-2 pr-2 flex items-center justify-between shadow-[0_8px_40px_-4px_rgba(0,123,255,0.15)] bg-white dark:bg-slate-800 border border-white/50 dark:border-white/10 ring-1 ring-slate-100 dark:ring-slate-700 backdrop-blur-3xl transition-transform h-16">
+<div class="flex items-center flex-1 gap-4">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-[0_4px_12px_rgba(0,123,255,0.4)] text-white hover:bg-blue-600 transition-colors shrink-0">
+<span class="material-symbols-outlined text-[24px]">mic</span>
+</div>
+<div class="flex flex-col justify-center">
+<span class="text-slate-900 dark:text-white text-[16px] font-bold leading-tight tracking-tight">New Craving</span>
+<span class="text-slate-400 dark:text-slate-500 text-[13px] font-medium leading-tight">Hey, I want to eat...</span>
+</div>
+</div>
+<button class="h-10 w-10 rounded-full bg-slate-200/70 dark:bg-slate-700/50 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer mr-1">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div></body></html>
