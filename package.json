@@ -1,0 +1,7 @@
+{
+  "name": "kitchenflow",
+  "private": true,
+  "scripts": {
+    "build": "cd kitchenflow-web && npm ci && npm run build"
+  }
+}
