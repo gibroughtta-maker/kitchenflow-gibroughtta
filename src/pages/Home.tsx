@@ -1,43 +1,57 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
-    <div className="space-y-8 pt-2">
-      <div className="text-center py-6">
-        <p className="text-glass-secondary text-sm">
-          拍冰箱 → AI 识别食材 → 推荐食谱与购物清单
-        </p>
+    <div className="flex flex-1 flex-col min-h-0">
+      {/* 中间取景框 + 提示 */}
+      <div className="flex-1 flex items-center justify-center px-6 pointer-events-none">
+        <div className="relative w-72 h-72 rounded-[32px] overflow-hidden flex items-center justify-center">
+          {/* 取景框四角 */}
+          <div className="absolute top-0 left-0 w-8 h-8 border-t-[3px] border-l-[3px] border-white/80 rounded-tl-2xl z-10" />
+          <div className="absolute top-0 right-0 w-8 h-8 border-t-[3px] border-r-[3px] border-white/80 rounded-tr-2xl z-10" />
+          <div className="absolute bottom-0 left-0 w-8 h-8 border-b-[3px] border-l-[3px] border-white/80 rounded-bl-2xl z-10" />
+          <div className="absolute bottom-0 right-0 w-8 h-8 border-b-[3px] border-r-[3px] border-white/80 rounded-br-2xl z-10" />
+          {/* 扫描线动效（与 AI Studio 一致）*/}
+          <div className="absolute left-0 right-0 h-[2px] bg-blue-400 shadow-[0_0_15px_rgba(96,165,250,1)] animate-scan-y opacity-80" />
+          {/* 取景框内提示 */}
+          <div className="absolute bottom-6 left-0 right-0 flex justify-center z-10">
+            <div className="glass-panel !bg-white/10 !border-white/20 rounded-full px-4 py-1.5 flex items-center gap-2 backdrop-blur-md border">
+              <span className="material-symbols-outlined text-white text-base">center_focus_weak</span>
+              <span className="text-white text-xs font-medium tracking-wide">Point at your fridge to scan</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <Link
-        to="/scan"
-        className="block w-full liquid-card rounded-3xl p-6 text-center hover:bg-white/20 active:scale-[0.98] transition-all border border-white/30"
-      >
-        <span className="material-symbols-outlined text-4xl mb-3 block">add_photo_alternate</span>
-        <span className="font-bold text-glass-primary text-lg">上传照片 · 扫描冰箱</span>
-        <p className="text-sm text-glass-secondary mt-1">选择 1～5 张照片，AI 识别食材与新鲜度</p>
-      </Link>
-      <div className="grid grid-cols-3 gap-3">
-        <Link
-          to="/cravings"
-          className="liquid-card rounded-2xl p-4 text-center hover:bg-white/20 active:scale-[0.98] transition"
-        >
-          <span className="material-symbols-outlined text-2xl block mb-1">restaurant</span>
-          <span className="text-sm font-semibold text-glass-primary">想吃</span>
-        </Link>
-        <Link
-          to="/shopping"
-          className="liquid-card rounded-2xl p-4 text-center hover:bg-white/20 active:scale-[0.98] transition"
-        >
-          <span className="material-symbols-outlined text-2xl block mb-1">shopping_cart</span>
-          <span className="text-sm font-semibold text-glass-primary">购物</span>
-        </Link>
-        <Link
-          to="/inventory"
-          className="liquid-card rounded-2xl p-4 text-center hover:bg-white/20 active:scale-[0.98] transition"
-        >
-          <span className="material-symbols-outlined text-2xl block mb-1">kitchen</span>
-          <span className="text-sm font-semibold text-glass-primary">库存</span>
-        </Link>
+
+      {/* 底部：渐变 + 快门 + Hey I want to eat 条 */}
+      <div className="pb-8 pt-16 px-5 flex flex-col items-center gap-8 bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
+        <div className="pointer-events-auto flex flex-col items-center gap-8 w-full max-w-[340px]">
+          {/* 快门 → /scan */}
+          <button
+            type="button"
+            onClick={() => navigate('/scan')}
+            className="group relative w-20 h-20 rounded-full border-[4px] border-white/30 flex items-center justify-center transition-all active:scale-90 hover:border-white/50"
+            aria-label="扫描冰箱"
+          >
+            <div className="w-[66px] h-[66px] bg-white rounded-full shadow-[0_0_30px_rgba(255,255,255,0.3)] group-hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] transition-shadow" />
+          </button>
+
+          {/* Hey, I want to eat... → /cravings */}
+          <button
+            type="button"
+            onClick={() => navigate('/cravings')}
+            className="w-full pointer-events-auto liquid-bar rounded-full px-5 py-4 border border-white/10 flex items-center gap-3 text-left hover:bg-white/10 active:scale-[0.99] transition-all"
+            aria-label="想吃点什么"
+          >
+            <span className="material-symbols-outlined text-white text-2xl">restaurant</span>
+            <span className="text-white/80 text-base font-medium tracking-wide flex-1">
+              Hey, I want to eat...
+            </span>
+            <span className="material-symbols-outlined text-white/60 text-xl">mic</span>
+          </button>
+        </div>
       </div>
     </div>
   );

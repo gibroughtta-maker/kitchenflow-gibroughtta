@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getInventory, setInventory } from '../services/storage';
+import { getInventory, setInventory } from '../services/api';
 import type { FreshItem, FridgeSnapshotResult } from '../types';
 import type { InventoryItem } from '../types';
 
@@ -75,6 +76,7 @@ function ItemRow({ item, imageUrl, isPriority }: { item: FreshItem; imageUrl?: s
 
 export default function ScanResults() {
   const navigate = useNavigate();
+  const [error, setError] = useState('');
   const { state } = useLocation() as { state?: { result: FridgeSnapshotResult } };
   const result = state?.result;
 
@@ -95,20 +97,25 @@ export default function ScanResults() {
 
   const { fresh, useSoon, priority } = groupByFreshness(result.items);
 
-  const saveToInventory = () => {
-    const inv: InventoryItem[] = getInventory();
-    const loc = result.items[0]?.storageLocation ?? 'fridge';
-    const newItems: InventoryItem[] = result.items.map((i, idx) => ({
-      id: `scan-${Date.now()}-${idx}`,
-      name: i.name,
-      quantity: i.quantity,
-      unit: i.unit,
-      freshness: i.freshness,
-      location: loc === 'pantry' ? 'pantry' : loc === 'freezer' ? 'freezer' : 'fridge',
-      addedAt: Date.now(),
-    }));
-    setInventory([...inv, ...newItems]);
-    navigate('/inventory');
+  const saveToInventory = async () => {
+    setError('');
+    try {
+      const inv = await getInventory();
+      const loc = result.items[0]?.storageLocation ?? 'fridge';
+      const newItems: InventoryItem[] = result.items.map((i, idx) => ({
+        id: `scan-${Date.now()}-${idx}`,
+        name: i.name,
+        quantity: i.quantity,
+        unit: i.unit,
+        freshness: i.freshness,
+        location: loc === 'pantry' ? 'pantry' : loc === 'freezer' ? 'freezer' : 'fridge',
+        addedAt: Date.now(),
+      }));
+      await setInventory([...inv, ...newItems]);
+      navigate('/inventory');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : '保存到库存失败，请稍后重试');
+    }
   };
 
   const addToShopping = () => {
@@ -159,12 +166,17 @@ export default function ScanResults() {
         </div>
       )}
       <div className="h-6" />
+      {error && (
+        <p className="text-red-300 text-sm text-center py-2 px-4 rounded-xl bg-red-500/20 mx-4" role="alert">
+          {error}
+        </p>
+      )}
       <div className="fixed bottom-0 left-1/2 -translate-x-1/2 z-30 w-full max-w-[375px] p-5 pb-8 liquid-bar shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.5)] flex flex-col gap-3" style={{ paddingBottom: 'max(2rem, env(safe-area-inset-bottom))' }}>
-        <button type="button" onClick={saveToInventory} className="w-full h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:to-blue-500 text-white font-bold text-base shadow-[0_0_20px_rgba(59,130,246,0.5)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-white/20">
+        <button type="button" onClick={saveToInventory} className="w-full h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white font-bold text-base shadow-lg shadow-blue-500/30 active:scale-95 transition-all flex items-center justify-center gap-2 border border-white/20">
           <span className="material-symbols-outlined">restaurant_menu</span>
           Recommended Recipes
         </button>
-        <button type="button" onClick={addToShopping} className="w-full h-14 rounded-full liquid-card hover:bg-white/20 text-white font-bold text-base active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-white/30 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+        <button type="button" onClick={addToShopping} className="w-full h-14 rounded-full liquid-card hover:bg-white/20 text-white font-bold text-base active:scale-95 transition-all flex items-center justify-center gap-2 border border-white/30 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
           <span className="material-symbols-outlined">receipt_long</span>
           Generate Shopping List
         </button>

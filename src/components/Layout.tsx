@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import NavigationDrawer from './NavigationDrawer';
 
 const titles: Record<string, string> = {
   '/': 'KitchenFlow',
@@ -14,7 +16,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const path = location.pathname;
   const title = titles[path] ?? 'KitchenFlow';
-  const showBack = path !== '/';
+  const isHome = path === '/';
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const scrollBottomPadding = path === '/scan-results' ? 'pb-44' : 'pb-8';
 
@@ -25,27 +28,47 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         className={`relative z-10 flex min-h-full w-full flex-col overflow-y-auto overflow-x-hidden no-scrollbar ${scrollBottomPadding}`}
       >
         <header className="sticky top-0 z-50 flex w-full items-center justify-between px-5 pt-6 pb-4 shrink-0">
-          {showBack ? (
-            <button
-              type="button"
-              onClick={() => navigate(-1)}
-              className="liquid-card flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-white/20 active:scale-95 transition-transform text-white"
-            >
-              <span className="material-symbols-outlined text-xl">arrow_back_ios_new</span>
-            </button>
+          {isHome ? (
+            /* 首页：药丸栏（网格 + 标题 + 右侧占位）*/
+            <div className="flex flex-1 justify-center w-full px-6">
+              <div className="flex flex-1 max-w-[340px] items-center justify-between gap-3 glass-panel-thick !bg-black/30 !backdrop-blur-xl !border-white/10 rounded-full px-5 py-3 shadow-lg">
+              <button
+                type="button"
+                onClick={() => setDrawerOpen(true)}
+                className="p-1 rounded-full text-glass-primary hover:bg-white/10 active:scale-90 transition-colors transition-transform duration-200"
+                aria-label="打开菜单"
+              >
+                <span className="material-symbols-outlined text-white text-[24px]">grid_view</span>
+              </button>
+              <span className="text-white font-bold tracking-wide text-base flex-1 text-center">KitchenFlow</span>
+              <div className="w-8 shrink-0" aria-hidden />
+              </div>
+            </div>
           ) : (
-            <div className="size-10 shrink-0" />
+            /* 子页：返回 + 标题 */
+            <>
+              <button
+                type="button"
+                onClick={() => navigate(-1)}
+                className="liquid-card flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-white/20 active:scale-90 transition-colors transition-transform duration-200 text-white"
+                aria-label="返回"
+              >
+                <span className="material-symbols-outlined text-xl">arrow_back_ios_new</span>
+              </button>
+              <h1 className="text-glass-primary text-lg font-bold tracking-wide truncate">
+                {title}
+              </h1>
+              <div className="size-10 shrink-0" />
+            </>
           )}
-          <h1 className="text-glass-primary text-lg font-bold tracking-wide truncate">
-            {title}
-          </h1>
-          <div className="size-10 shrink-0" />
         </header>
 
-        <main className="flex-1 w-full min-w-0 px-5 pt-2">
+        <main className={`flex-1 w-full min-w-0 flex flex-col ${isHome ? 'p-0' : 'px-5 pt-2'}`}>
           {children}
         </main>
       </div>
+
+      <NavigationDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </div>
   );
 }

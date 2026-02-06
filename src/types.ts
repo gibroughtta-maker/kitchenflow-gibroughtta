@@ -22,6 +22,15 @@ export interface CravingAnalysisResult {
   servings?: number;
 }
 
+/** 新 API：食谱详情（与 AI Studio getRecipeDetails 一致） */
+export interface RecipeDetails {
+  dishName: string;
+  cuisine: string;
+  cookingTime: string;
+  ingredients: { name: string; icon?: string }[];
+  steps: string[];
+}
+
 export interface ShoppingItem {
   id: string;
   name: string;

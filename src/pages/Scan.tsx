@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { scanFridge } from '../services/gemini';
+import { scanFridge } from '../services/api';
 import type { FridgeSnapshotResult } from '../types';
 
 type StorageLocation = 'fridge' | 'freezer' | 'pantry';
@@ -50,9 +50,13 @@ export default function Scan() {
     try {
       const images = await Promise.all(files.map(fileToBase64));
       const result = await scanFridge(images);
+      if (!result?.items?.length) {
+        setError('未识别到食材，请重试或换几张照片');
+        return;
+      }
       const withLocation: FridgeSnapshotResult = {
-        ...result,
         items: result.items.map((i) => ({ ...i, storageLocation })),
+        scanQuality: result.scanQuality ?? 'medium',
       };
       navigate('/scan-results', { state: { result: withLocation } });
     } catch (e: unknown) {
